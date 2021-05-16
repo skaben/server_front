@@ -4,48 +4,69 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-//const config = dotenv.config();
 const API_URL = 'http://127.0.0.1/api';
 
-console.log(API_URL);
-
-//to handle state
 const state = {
-  alert: []
+  alertState: [],
+  alertCounter: {},
 }
 
-//to handle state
 const getters = {}
 
-//to handle actions
 const actions = {
 
-  getAlert({ commit }) {
+  getAlertState({ commit }) {
     axios.get(`${API_URL}/alert_state`)
     .then(response => {
-      commit('GET_ALERT', response.data)
+      commit('SET_ALERT_STATE', response.data)
     })
   },
 
-  setAlert: ({ dispatch }, { id }) => {
-    axios.get(`${API_URL}/alert_state/${id}/set_current`)
-    .then(() => {
-      dispatch('getAlert');
-    });
+  getAlertCounter({ commit }) {
+    axios.get(`${API_URL}/alert_counter/get_latest`)
+    .then(response => {
+      commit('SET_ALERT_COUNTER', response.data);
+    })
+  },
+
+  async setAlertState({ dispatch }, { id }) {
+    const response = await axios.get(`${API_URL}/alert_state/${id}/set_current`)
+    if (200 <= response.status < 400) {
+      await dispatch('getAlertState');
+      await dispatch('getAlertCounter');
+    }
+  },
+
+  async setAlertCounter({ dispatch, commit }, { value }) {
+    const payload = {
+      value: value,
+      comment: 'set by Skaben Kontrol',
+    }
+    const response = await axios.post(`${API_URL}/alert_counter/`, payload);
+    if (200 <= response.status < 400) {
+      await dispatch('getAlertState');
+      commit('SET_ALERT_COUNTER', response.data);
+    }
+  },
+
+  get(args, { url }) {
+    axios.get(url);
   }
 
 }
 
-//to handle mutations
 const mutations = {
 
-  GET_ALERT(state, alert) {
-    state.alert = alert
+  SET_ALERT_STATE(state, alert) {
+    state.alertState = alert;
+  },
+
+  SET_ALERT_COUNTER(state, counter) {
+    state.alertCounter = counter;
   }
 
 }
 
-//export store module
 
 export default new Vuex.Store({
   state,

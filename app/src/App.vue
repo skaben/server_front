@@ -5,7 +5,7 @@
       <alert-tracker class="py-2 px-5"/>
     </div>
     <div class="hero-body">
-      <device-control/>
+      <terminal-list/>
     </div>
     <div class="hero-foot">
       <notificaton-list/>
@@ -17,15 +17,15 @@
 import AlertTracker from './components/AlertTracker.vue'
 import NotificatonList from './components/notification/NotificationList.vue';
 import AppHeader from './components/AppHeader.vue';
-import DeviceControl from './components/DeviceControl.vue';
+import TerminalList from './components/TerminalList.vue';
 
 export default {
   name: 'Skaben',
   components: {
     AlertTracker,
     AppHeader,
-    DeviceControl,
-    NotificatonList
+    NotificatonList,
+    TerminalList
   }
 }
 </script>

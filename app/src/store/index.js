@@ -9,11 +9,27 @@ const API_URL = 'http://127.0.0.1/api';
 const state = {
   alertState: [],
   alertCounter: {},
+  locks: [],
+  terminals: [],
 }
 
 const getters = {}
 
 const actions = {
+
+  getTerminalDevices({ commit }) {
+    axios.get(`${API_URL}/terminal`)
+    .then(response => {
+      commit('SET_TERMINALS', response.data)
+    })
+  },
+
+  getLockDevices({ commit }) {
+    axios.get(`${API_URL}/lock`)
+    .then(response => {
+      commit('SET_LOCKS', response.data)
+    })
+  },
 
   getAlertState({ commit }) {
     axios.get(`${API_URL}/alert_state`)
@@ -49,6 +65,13 @@ const actions = {
     }
   },
 
+  async setTerminal(args, { id, payload }) {
+    const response = await axios.post(`${API_URL}/terminal/${id}/`, payload);
+    if (200 <= response.status < 400) {
+      console.log(response.data);
+    }
+  },
+
   get(args, { url }) {
     axios.get(url);
   }
@@ -63,7 +86,15 @@ const mutations = {
 
   SET_ALERT_COUNTER(state, counter) {
     state.alertCounter = counter;
-  }
+  },
+
+  SET_TERMINALS(state, terminals) {
+    state.terminals = terminals
+  },
+
+  SET_LOCKS(state, locks) {
+    state.locks = locks
+  },
 
 }
 

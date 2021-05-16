@@ -159,8 +159,9 @@ export default {
 
   methods: {
     setCurrent(alertId) {
-      console.log('sending', alertId);
-      this.$store.dispatch("setAlertState", {id: alertId});
+      if (alertId !== this.isCurrent.id ) {
+        this.$store.dispatch("setAlertState", {id: alertId});
+      }
     },
     setCounterValue() {
       const value = this.counterInnerValue;

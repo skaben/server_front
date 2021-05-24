@@ -165,7 +165,9 @@ export default {
     },
     setCounterValue() {
       const value = this.counterInnerValue;
-      if (value !== this.alertCounter.value && 1 < value <= this.maxAlertValue) {
+      if (value === 0) return;
+      if (value > this.maxAlertValue) return;
+      if (value !== this.alertCounter.value) {
         this.$store.dispatch("setAlertCounter", {value: value});
       }
     }

@@ -21,6 +21,7 @@
         class="level-item button is-danger is-uppercase">
         Принудительное обновление
       </a>
+
     </div>
   </div>
 </template>
@@ -42,7 +43,9 @@ export default {
   methods: {
     sendUpdate() {
       this.$store.dispatch("get", {url: this.updateConfigAll});
-    }
-  }
+    },
+
+  },
+
 }
 </script>

@@ -79,7 +79,7 @@ export default {
       blocked: false,
       hacked: false,
       override: false,
-      controlsVisible: true,
+      controlsVisible: false,
     }
   },
 

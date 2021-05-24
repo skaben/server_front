@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import axios from 'axios';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-const API_URL = 'http://127.0.0.1/api';
+const API_URL = process.env.VUE_APP_API_URL;
 
 const state = {
   alertState: [],
@@ -66,7 +66,7 @@ const actions = {
   },
 
   async setTerminal(args, { id, payload }) {
-    const response = await axios.post(`${API_URL}/terminal/${id}/`, payload);
+    const response = await axios.put(`${API_URL}/terminal/${id}/`, payload);
     if (200 <= response.status < 400) {
       console.log(response.data);
     }
@@ -74,6 +74,18 @@ const actions = {
 
   get(args, { url }) {
     axios.get(url);
+  },
+
+  async periodicUpdate({dispatch}) {
+    const awaitUpdate = [
+      'getAlertState',
+      'getAlertCounter',
+      'getTerminalDevices',
+      'getLockDevices',
+    ];
+    for await(const item of awaitUpdate) {
+      dispatch(item);
+    }
   }
 
 }
@@ -82,6 +94,7 @@ const mutations = {
 
   SET_ALERT_STATE(state, alert) {
     state.alertState = alert;
+    Vue.prototype.$socket.send({'test': 'test'});
   },
 
   SET_ALERT_COUNTER(state, counter) {
@@ -103,5 +116,5 @@ export default new Vuex.Store({
   state,
   getters,
   actions,
-  mutations
+  mutations,
 })

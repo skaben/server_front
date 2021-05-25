@@ -35,14 +35,13 @@ export default {
         ['Мониторинг очередей', `http://${ROOT_URL}:15672`],
         ['Конфигурация', `http://${ROOT_URL}/admin`],
         ['Просмотр API', `http://${ROOT_URL}/api`]
-      ],
-      updateConfigAll: `http://${ROOT_URL}/device/update`
+      ]
     }
   },
 
   methods: {
     sendUpdate() {
-      this.$store.dispatch("get", {url: this.updateConfigAll});
+      this.$store.dispatch("updateAll");
     },
 
   },

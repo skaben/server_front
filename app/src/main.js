@@ -3,7 +3,7 @@ import App from './App.vue'
 
 import Vuex from 'vuex'
 
-import axios from 'axios'
+import axios from './util/axios'
 import VueAxios from 'vue-axios'
 
 import Buefy from 'buefy'

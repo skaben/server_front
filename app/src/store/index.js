@@ -1,10 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
+import axios from '../util/axios';
+import axiosPure from 'axios';
+
+const ROOT_URL = process.env.VUE_APP_ROOT_URL;
 
 Vue.use(Vuex);
-
-const API_URL = process.env.VUE_APP_API_URL;
 
 const state = {
   alertState: [],
@@ -13,40 +14,41 @@ const state = {
   terminals: [],
 }
 
-const getters = {}
+const getters = {
+}
 
 const actions = {
 
   getTerminalDevices({ commit }) {
-    axios.get(`${API_URL}/terminal`)
+    axios.get(`/terminal`)
     .then(response => {
       commit('SET_TERMINALS', response.data)
     })
   },
 
   getLockDevices({ commit }) {
-    axios.get(`${API_URL}/lock`)
+    axios.get(`/lock`)
     .then(response => {
       commit('SET_LOCKS', response.data)
     })
   },
 
   getAlertState({ commit }) {
-    axios.get(`${API_URL}/alert_state`)
+    axios.get(`/alert_state`)
     .then(response => {
       commit('SET_ALERT_STATE', response.data)
     })
   },
 
   getAlertCounter({ commit }) {
-    axios.get(`${API_URL}/alert_counter/get_latest`)
+    axios.get(`/alert_counter/get_latest`)
     .then(response => {
       commit('SET_ALERT_COUNTER', response.data);
     })
   },
 
   async setAlertState({ dispatch }, { id }) {
-    const response = await axios.get(`${API_URL}/alert_state/${id}/set_current`)
+    const response = await axios.get(`/alert_state/${id}/set_current`)
     if (200 <= response.status < 400) {
       await dispatch('getAlertState');
       await dispatch('getAlertCounter');
@@ -58,22 +60,33 @@ const actions = {
       value: value,
       comment: 'set by Skaben Kontrol',
     }
-    const response = await axios.post(`${API_URL}/alert_counter/`, payload);
+    const response = await axios.post(`/alert_counter/`, payload);
     if (200 <= response.status < 400) {
       await dispatch('getAlertState');
       commit('SET_ALERT_COUNTER', response.data);
+    } else {
+      console.error(response);
     }
   },
 
-  async setTerminal(args, { id, payload }) {
-    const response = await axios.put(`${API_URL}/terminal/${id}/`, payload);
+  async setTerminal({ dispatch }, { id, payload }) {
+    const response = await axios.patch(`/terminal/${id}/`, payload);
     if (200 <= response.status < 400) {
       console.log(response.data);
+      await dispatch('updateAll');
     }
   },
 
-  get(args, { url }) {
-    axios.get(url);
+  async setLock({ dispatch }, { id, payload }) {
+    const response = await axios.patch(`/lock/${id}/`, payload);
+    if (200 <= response.status < 400) {
+      console.log(response.data);
+      await dispatch('updateAll');
+    }
+  },
+
+  async updateAll() {
+    await axiosPure.get(`${ROOT_URL}/device/update`);
   },
 
   async periodicUpdate({dispatch}) {
@@ -94,7 +107,6 @@ const mutations = {
 
   SET_ALERT_STATE(state, alert) {
     state.alertState = alert;
-    Vue.prototype.$socket.send({'test': 'test'});
   },
 
   SET_ALERT_COUNTER(state, counter) {
@@ -108,6 +120,10 @@ const mutations = {
   SET_LOCKS(state, locks) {
     state.locks = locks
   },
+
+  SET_TOKEN(state, data) {
+    state.token = data.token;
+  }
 
 }
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="terminal-list">
-    <p class="label has-text-black-bis">Управление терминалами:</p>
-    <terminal-control
+  <div class="lock-list">
+    <p class="label has-text-black-bis">Управление замками:</p>
+    <lock-control
       class="my-3"
       v-for="device in devices"
       :key="device.id"
@@ -11,23 +11,23 @@
   </div>
 </template>
 <script>
-import TerminalControl from './device/TerminalControl.vue'
+import LockControl from './device/LockControl.vue'
 
 export default {
 
   components: {
-    TerminalControl
+    LockControl
   },
 
   data: () => {
     return {
-      deviceType: 'terminal'
+      deviceType: 'lock'
     }
   },
 
   computed: {
     devices() {
-      let devices = this.$store.state.terminals;
+      let devices = this.$store.state.locks;
       if (devices) {
         devices = devices.sort((a,b) => a.id - b.id);
         return devices;
@@ -38,7 +38,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch("getTerminalDevices");
+    this.$store.dispatch("getLockDevices");
   }
 }
 </script>

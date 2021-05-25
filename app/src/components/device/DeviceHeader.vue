@@ -1,10 +1,11 @@
 <template>
 
-  <div class="device-header">
-    <div class="has-text-left px-4 has-background-grey-darker">
+  <div class="device-header"
+    :class="device.online ? 'has-background-success' : 'has-background-danger-light'">
+    <div class="has-text-left px-4">
       <p class="is-uppercase is-size-7">
-        <span class="has-text-light">{{ deviceType }}</span>
-        <span class="has-text-danger pl-5" v-if="device.override">УСТРОЙСТВО РАБОТАЕТ В ПРЯМОМ РЕЖИМЕ (НЕ РЕАГИРУЕТ НА СМЕНУ СТАТУСА БАЗЫ)</span>
+        <span class="has-text-dark">{{ deviceType }}</span>
+        <span class="has-text-black-bis pl-5" v-if="device.override">УСТРОЙСТВО РАБОТАЕТ В ПРЯМОМ РЕЖИМЕ (НЕ РЕАГИРУЕТ НА СМЕНУ СТАТУСА БАЗЫ)</span>
       </p>
     </div>
     <div
@@ -12,8 +13,8 @@
       aria-controls="header">
       <div class="columns my-0 py-0">
           <div
-            class="column py-0 has-text-centered"
             v-for="(item, index) in baseConfig"
+            class="column py-0 has-text-centered"
             :key="index">
             <p class="is-size-6 is-bold">{{ item }}</p>
           </div>
@@ -46,7 +47,13 @@ export default {
 
   computed: {
     isPowered() {
-      return this.device.powered ? 'питание подключено' : 'питание не подключено';
+      if (this.device.powered) {
+        return 'питание подключено';
+      } else if (this.device.powered === false) {
+        return 'питание не подключено';
+      } else {
+        return '';
+      }
     },
     isBlocked() {
       return this.device.blocked ? 'устройство заблокировано' : '';
@@ -57,14 +64,37 @@ export default {
     isOverrided() {
       return this.device.override ? 'прямое управление' : '';
     },
+    isClosed() {
+      if (this.device.closed) {
+        return 'устройство закрыто';
+      } else if (this.device.closed === false) {
+        return 'устройство открыто';
+      } else {
+        return '';
+      }
+    },
+    isSound() {
+      if (this.device.sound) {
+        return 'звук включен';
+      } else if (this.device.closed === '') {
+        return 'звук выключен';
+      } else {
+        return '';
+      }
+    },
     statusList() {
-      return [this.isPowered, this.isBlocked, this.isHacked].filter(item => item !== '');
+      return [
+        this.isPowered,
+        this.isBlocked,
+        this.isHacked,
+        this.isSound,
+        this.isClosed,
+        ].filter(item => item !== '');
     },
     baseConfig() {
       return [this.device.uid, this.device.info, this.device.ip]
     }
-  }
-
+  },
 }
 </script>
 <style scoped>

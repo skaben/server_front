@@ -5,7 +5,14 @@
       <alert-tracker class="py-2 px-5"/>
     </div>
     <div class="hero-body">
-      <terminal-list/>
+      <div class="columns">
+        <div class="column">
+          <lock-list/>
+        </div>
+        <div class="column">
+          <terminal-list/>
+        </div>
+      </div>
     </div>
     <div class="hero-foot">
       <notificaton-list/>
@@ -18,6 +25,7 @@ import AlertTracker from './components/AlertTracker.vue'
 import NotificatonList from './components/notification/NotificationList.vue';
 import AppHeader from './components/AppHeader.vue';
 import TerminalList from './components/TerminalList.vue';
+import LockList from './components/LockList.vue';
 
 export default {
   name: 'Skaben',
@@ -25,11 +33,11 @@ export default {
     AlertTracker,
     AppHeader,
     NotificatonList,
-    TerminalList
+    TerminalList,
+    LockList
   }
 }
 </script>
-
 <style>
 
 body, html {
@@ -43,6 +51,10 @@ body, html {
  /* Hide scrollbar for Chrome, Safari and Opera */
 body::-webkit-scrollbar {
   display: none;
+}
+
+.device-control {
+  border: 1px solid black;
 }
 
 </style>

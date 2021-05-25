@@ -3,17 +3,19 @@
 
     <div>
         <b-progress
-          :value="alertCounter.value"
-          :max="maxAlertValue"
-          :type="alertBar"
-          show-value
-          size="is-large"
-          format="percent"
-          class="progress-square"
-          >
-          <span class="is-uppercase">
-            <span>{{ alertCounter.value }} / {{ maxAlertValue }}</span> : {{ currentInfo }}</span>
-          </b-progress>
+            :value="alertCounter.value"
+            :max="maxAlertValue"
+            :type="alertBar"
+            show-value
+            size="is-large"
+            format="percent"
+            class="progress-square"
+            >
+            <transition name="fade" mode="out-in">
+              <span class="is-uppercase" :key="alertCounter.value">
+                <span>{{ alertCounter.value }} / {{ maxAlertValue }}</span> : {{ currentInfo }}</span>
+            </transition>
+        </b-progress>
     </div>
 
     <div class="level mt-4">

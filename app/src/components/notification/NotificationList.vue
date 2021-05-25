@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { getUniqueId } from '../../helpers';
+import { getUniqueId } from '../../util/helpers';
 
 
 const MESSAGE_TYPE_ALLOWED = ['info', 'error'];

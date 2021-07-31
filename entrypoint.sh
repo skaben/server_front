@@ -2,4 +2,9 @@
 
 cd /app
 
-npm run build
+if [[ $ENVIRON != 'dev' ]]; then
+    npm run build
+    npm run start
+else
+    npm run dev
+fi

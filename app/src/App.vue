@@ -15,14 +15,14 @@
       </div>
     </div>
     <div class="hero-foot">
-      <notificaton-list/>
+      <notification-list/>
     </div>
   </div>
 </template>
 
 <script>
 import AlertTracker from './components/AlertTracker.vue'
-import NotificatonList from './components/notification/NotificationList.vue';
+import NotificationList from './components/notification/NotificationList.vue';
 import AppHeader from './components/AppHeader.vue';
 import TerminalList from './components/TerminalList.vue';
 import LockList from './components/LockList.vue';
@@ -32,7 +32,7 @@ export default {
   components: {
     AlertTracker,
     AppHeader,
-    NotificatonList,
+    NotificationList,
     TerminalList,
     LockList
   }

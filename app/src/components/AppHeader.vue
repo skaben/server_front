@@ -11,14 +11,14 @@
         >
         <a
           target="_blank"
-          class="button is-outlined is-info has-text-light is-uppercase"
+          class="button is-info has-text-light"
           :href="link[1]">
-          {{ link[0] }}
+          <span class="header-link">{{ link[0] }}</span>
         </a>
       </div>
       <a
         @click="sendUpdate"
-        class="level-item button is-danger is-uppercase">
+        class="level-item button is-danger header-link">
         Принудительное обновление
       </a>
 
@@ -48,3 +48,10 @@ export default {
 
 }
 </script>
+<style scoped>
+  .header-link {
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+</style>

@@ -50,7 +50,7 @@ new Vue({
   render: h => h(App),
 
   created() {
-    const timeout = process.env.VUE_APP_TIMEOUT || 1000;
+    const timeout = process.env.VUE_APP_TIMEOUT || 5000;
     setInterval(this.setUpdates, timeout)
   },
 

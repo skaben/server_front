@@ -185,4 +185,12 @@ export default {
   .progress-square progress {
     border-radius: 0 !important;
   }
+
+  .progress.is-large {
+    height: 2rem !important;
+  }
+
+  .progress-value {
+    padding: 5px;
+  }
 </style>

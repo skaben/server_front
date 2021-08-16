@@ -170,7 +170,6 @@ export default {
         id: this.device.id,
         payload: this.state
       })
-      console.log(this.state);
       this.toggleActivated();
     },
 
@@ -181,6 +180,10 @@ export default {
     toggleControls() {
       this.controlsVisible = this.controlsVisible ? false : true;
     },
+
+    toggleActivated() {
+      this.activated = this.activated ? false : true;
+    }
   },
 
   mounted() {

@@ -3,8 +3,6 @@ import Vuex from 'vuex';
 import axios from '../util/axios';
 import axiosPure from 'axios';
 
-const ROOT_URL = process.env.VUE_APP_ROOT_URL;
-
 Vue.use(Vuex);
 
 const state = {
@@ -86,7 +84,7 @@ const actions = {
   },
 
   async updateAll() {
-    await axiosPure.get(`${ROOT_URL}/device/update`);
+    await axiosPure.get(`/api/device/update`);
   },
 
   async periodicUpdate({dispatch}) {

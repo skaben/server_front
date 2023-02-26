@@ -1,13 +1,14 @@
-FROM node:alpine3.11
+FROM node:16-alpine
 
 RUN apk add git bash
 
 WORKDIR /app
-COPY ./app .
-RUN npm install
-COPY ./entrypoint.sh /entrypoint.sh
+COPY ./app/package.json .
+RUN yarn
 
+ENV PATH /app/node_modules/.bin:$PATH
+
+EXPOSE 5173
 EXPOSE 3000
 
-RUN chmod +x /entrypoint.sh
-CMD ["sh", "-c", "/entrypoint.sh"]
+CMD ["yarn", "run", "dev"]
